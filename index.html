@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GridSafe Systems — Choose Your Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --black-soft: #0a0a0a;
+    --red: #cc0000;
+    --red-bright: #ff1a1a;
+    --red-deep: #8a0000;
+    --gold: #c9a84c;
+    --gold-bright: #e8c96a;
+    --gold-deep: #7a6030;
+    --white: #ffffff;
+    --gray: #888888;
+    --gray-dim: #444444;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  /* Background atmosphere */
+  .atmosphere {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 25% 30%, rgba(204, 0, 0, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 75% 70%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
+      var(--black);
+    z-index: 0;
+  }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    opacity: 0.03;
+    z-index: 2;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Main container */
+  .container {
+    position: relative;
+    z-index: 10;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 20px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    animation: fadeInDown 1s ease-out;
+  }
+
+  .header-line {
+    display: inline-block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    position: relative;
+    padding: 0 12px;
+  }
+
+  .header-line::before,
+  .header-line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 1px;
+    background: var(--gray-dim);
+  }
+  .header-line::before { right: 100%; }
+  .header-line::after { left: 100%; }
+
+  .brand {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--white);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .brand .accent {
+    color: var(--red);
+  }
+
+  .tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--gray);
+    text-transform: uppercase;
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  /* Welcome message */
+  .welcome {
+    text-align: center;
+    margin: 32px 0;
+    animation: fadeIn 1.4s ease-out 0.3s both;
+  }
+
+  .welcome-pretitle {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .welcome-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: 1px;
+    color: var(--white);
+    text-transform: uppercase;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .welcome-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--gray);
+    margin-top: 16px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  /* Choice cards */
+  .choices {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: center;
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .choice {
+    position: relative;
+    background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(8, 8, 8, 0.98));
+    border: 1px solid var(--gray-dim);
+    padding: 28px 24px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-decoration: none;
+    color: var(--white);
+    display: block;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .choice.grid {
+    border-top: 2px solid var(--red);
+    animation: slideUp 0.8s ease-out 0.6s forwards;
+  }
+
+  .choice.network {
+    border-top: 2px solid var(--gold);
+    animation: slideUp 0.8s ease-out 0.85s forwards;
+  }
+
+  .choice::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(204, 0, 0, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .choice.network::before {
+    background: linear-gradient(135deg, transparent, rgba(201, 168, 76, 0.05), transparent);
+  }
+
+  .choice:hover::before,
+  .choice:active::before {
+    opacity: 1;
+  }
+
+  .choice:hover,
+  .choice:active {
+    transform: translateY(-2px);
+    border-color: var(--red);
+  }
+
+  .choice.network:hover,
+  .choice.network:active {
+    border-color: var(--gold);
+  }
+
+  .choice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .choice-tag {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gray);
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid var(--gray-dim);
+    border-radius: 1px;
+  }
+
+  .choice.grid .choice-tag {
+    color: var(--red-bright);
+    border-color: var(--red-deep);
+  }
+
+  .choice.network .choice-tag {
+    color: var(--gold-bright);
+    border-color: var(--gold-deep);
+  }
+
+  .choice-number {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 2px;
+  }
+
+  .choice-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .choice.grid .choice-title {
+    color: var(--white);
+  }
+
+  .choice.grid .choice-title .em {
+    color: var(--red);
+  }
+
+  .choice.network .choice-title {
+    color: var(--white);
+  }
+
+  .choice.network .choice-title .em {
+    color: var(--gold);
+  }
+
+  .choice-desc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin-bottom: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .choice-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid var(--gray-dim);
+  }
+
+  .choice-cta-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .choice.grid .choice-cta-text {
+    color: var(--red-bright);
+  }
+
+  .choice.network .choice-cta-text {
+    color: var(--gold-bright);
+  }
+
+  .choice-arrow {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--gray-dim);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .choice.grid .choice-arrow {
+    border-color: var(--red-deep);
+    color: var(--red-bright);
+  }
+
+  .choice.network .choice-arrow {
+    border-color: var(--gold-deep);
+    color: var(--gold-bright);
+  }
+
+  .choice:hover .choice-arrow,
+  .choice:active .choice-arrow {
+    transform: translateX(4px);
+  }
+
+  .choice.grid:hover .choice-arrow {
+    background: var(--red);
+    color: var(--white);
+    border-color: var(--red);
+  }
+
+  .choice.network:hover .choice-arrow {
+    background: var(--gold);
+    color: var(--black);
+    border-color: var(--gold);
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding-top: 24px;
+    animation: fadeIn 1s ease-out 1.2s both;
+  }
+
+  .footer-text {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--gray-dim);
+    text-transform: uppercase;
+  }
+
+  .footer-veteran {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    color: var(--red);
+    letter-spacing: 2px;
+    margin-top: 6px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Subtle pulse on choice borders */
+  @keyframes pulseRed {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(204, 0, 0, 0); }
+    50% { box-shadow: 0 0 30px 0 rgba(204, 0, 0, 0.15); }
+  }
+
+  @keyframes pulseGold {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0); }
+    50% { box-shadow: 0 0 30px 0 rgba(201, 168, 76, 0.12); }
+  }
+
+  .choice.grid {
+    animation: slideUp 0.8s ease-out 0.6s forwards, pulseRed 4s ease-in-out 2s infinite;
+  }
+
+  .choice.network {
+    animation: slideUp 0.8s ease-out 0.85s forwards, pulseGold 4s ease-in-out 2.5s infinite;
+  }
+
+  /* Tablet+ */
+  @media (min-width: 768px) {
+    .choices {
+      flex-direction: row;
+      max-width: 800px;
+      gap: 24px;
+    }
+    .choice {
+      flex: 1;
+      padding: 36px 28px;
+    }
+    .welcome-title {
+      font-size: 40px;
+      max-width: 500px;
+    }
+    .brand {
+      font-size: 36px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="atmosphere"></div>
+<div class="grid-overlay"></div>
+<div class="noise"></div>
+
+<div class="container">
+
+  <header class="header">
+    <div class="header-line">Survival Intelligence</div>
+    <h1 class="brand">GRID<span class="accent">SAFE</span> SYSTEMS</h1>
+    <div class="tagline">Built for the Community the System Forgot</div>
+  </header>
+
+  <section class="welcome">
+    <div class="welcome-pretitle">Welcome, Operator</div>
+    <h2 class="welcome-title">Choose Your Entry Point</h2>
+    <p class="welcome-subtitle">Two missions. One community. Select the path that brought you here.</p>
+  </section>
+
+  <div class="choices">
+
+    <a href="#grid" class="choice grid" id="enter-grid">
+      <div class="choice-header">
+        <span class="choice-tag">Survival Intelligence</span>
+        <span class="choice-number">01 / 02</span>
+      </div>
+      <h3 class="choice-title">Enter the <span class="em">Grid</span></h3>
+      <p class="choice-desc">Offline-first survival intelligence. Mesh networking. Ghost AI. Built for veterans, first responders, and prepared communities.</p>
+      <div class="choice-cta">
+        <span class="choice-cta-text">Activate Access</span>
+        <span class="choice-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="#network" class="choice network" id="enter-network">
+      <div class="choice-header">
+        <span class="choice-tag">Real Estate Network</span>
+        <span class="choice-number">02 / 02</span>
+      </div>
+      <h3 class="choice-title">Enter the <span class="em">Network</span></h3>
+      <p class="choice-desc">Veteran-led real estate community. Off-market opportunities. Estate transitions. Built on trust and execution.</p>
+      <div class="choice-cta">
+        <span class="choice-cta-text">Join the Network</span>
+        <span class="choice-arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-text">GridSafe Systems LLC</div>
+    <div class="footer-veteran">★ Veteran Owned & Operated ★</div>
+  </footer>
+
+</div>
+
+<script>
+  // Routing for the two paths — replace these href values when child pages are built
+  document.getElementById('enter-grid').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = '/grid';
+  });
+
+  document.getElementById('enter-network').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = '/network';
+  });
+</script>
+
+</body>
+</html>

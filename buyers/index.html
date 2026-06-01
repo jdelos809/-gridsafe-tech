@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Join The Network — GridSafe Systems</title>
+<meta name="description" content="Register as a buyer or member of The Network by GridSafe Systems. Get access to off-market deal flow matched to your buy box."/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dim: #7A6030;
+    --black: #050608;
+    --dark: #0A0B0D;
+    --panel: #0F1115;
+    --panel2: #141720;
+    --border: rgba(201,168,76,0.2);
+    --border-dim: rgba(201,168,76,0.08);
+    --white: #F0EDE6;
+    --muted: #6A6D75;
+    --muted2: #8A8D95;
+    --error: #E05252;
+    --font-head: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-ui: 'Rajdhani', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.02) 1px, transparent 1px);
+    background-size: 52px 52px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-dim);
+    background: rgba(5,6,8,0.92);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-ui); font-size: 0.95rem; font-weight: 700;
+    letter-spacing: 0.12em; color: var(--gold);
+    text-decoration: none; text-transform: uppercase;
+  }
+  .logo svg { width: 24px; height: 24px; }
+  .logo .sub { color: var(--muted2); font-weight: 500; font-size: 0.65rem; letter-spacing: 0.16em; }
+  .back-link {
+    font-family: var(--font-ui); font-size: 0.72rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted2); text-decoration: none; transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--gold); }
+
+  /* HERO */
+  .form-hero {
+    position: relative; z-index: 1;
+    padding: 56px 32px 40px;
+    border-bottom: 1px solid var(--border-dim);
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,168,76,0.05) 0%, transparent 70%);
+    text-align: center;
+  }
+  .form-eyebrow {
+    font-family: var(--font-ui); font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .form-hero h1 {
+    font-family: var(--font-head); font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    text-transform: uppercase; line-height: 1; margin-bottom: 14px;
+  }
+  .form-hero p {
+    color: rgba(240,237,230,0.65); font-weight: 300;
+    max-width: 520px; margin: 0 auto; font-size: 1.02rem;
+  }
+
+  /* PROGRESS */
+  .progress-wrap {
+    position: relative; z-index: 1;
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border-dim);
+    background: var(--dark);
+  }
+  .progress-inner { max-width: 680px; margin: 0 auto; }
+  .progress-steps { display: flex; align-items: center; margin-bottom: 10px; }
+  .p-step {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-ui); font-size: 0.68rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); transition: color 0.3s; flex: 1;
+  }
+  .p-step.active { color: var(--gold); }
+  .p-step.done { color: var(--muted2); }
+  .p-step .dot {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700; flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .p-step.active .dot { border-color: var(--gold); background: var(--gold); color: var(--black); }
+  .p-step.done .dot { border-color: var(--gold-dim); background: rgba(201,168,76,0.15); color: var(--gold); }
+  .p-connector { flex: 1; height: 1px; background: var(--border-dim); margin: 0 6px; max-width: 40px; }
+  .progress-bar-track { height: 2px; background: var(--border-dim); margin-top: 14px; }
+  .progress-bar-fill { height: 100%; background: var(--gold); transition: width 0.5s ease; }
+
+  /* FORM CONTAINER */
+  .form-wrap {
+    position: relative; z-index: 1;
+    max-width: 680px; margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* STEP PANELS */
+  .step-panel { display: none; }
+  .step-panel.active { display: block; animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  .step-title {
+    font-family: var(--font-head); font-weight: 700;
+    font-size: 1.7rem; text-transform: uppercase;
+    letter-spacing: 0.02em; margin-bottom: 6px;
+  }
+  .step-sub { color: var(--muted2); font-weight: 300; font-size: 0.95rem; margin-bottom: 32px; }
+
+  /* FIELDS */
+  .field-group { display: flex; flex-direction: column; gap: 20px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field label {
+    font-family: var(--font-ui); font-size: 0.7rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted2); font-weight: 600;
+  }
+  .field label .req { color: var(--gold); margin-left: 2px; }
+  .field input,
+  .field select,
+  .field textarea {
+    background: var(--panel);
+    border: 1px solid var(--border-dim);
+    color: var(--white);
+    font-family: var(--font-body); font-size: 0.98rem;
+    padding: 13px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .field select { cursor: pointer; }
+  .field select option { background: var(--panel); }
+  .field textarea { resize: vertical; min-height: 100px; }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus { border-color: var(--gold); }
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--muted); }
+  .field .err { font-size: 0.78rem; color: var(--error); display: none; }
+  .field.has-error input,
+  .field.has-error select,
+  .field.has-error textarea { border-color: var(--error); }
+  .field.has-error .err { display: block; }
+
+  /* RADIO GROUPS */
+  .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .choice-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .choice-grid.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .choice-opt { position: relative; }
+  .choice-opt input[type="radio"],
+  .choice-opt input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .choice-opt label {
+    display: block; padding: 13px 14px;
+    border: 1px solid var(--border-dim);
+    background: var(--panel);
+    font-family: var(--font-ui); font-size: 0.8rem;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted2); cursor: pointer;
+    transition: all 0.2s; text-align: center;
+  }
+  .choice-opt input:checked + label {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    color: var(--gold);
+  }
+  .choice-opt label:hover { border-color: var(--border); color: var(--white); }
+
+  /* CHECKBOX (multi-select) */
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .check-opt { position: relative; }
+  .check-opt input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .check-opt label {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border-dim);
+    background: var(--panel);
+    font-family: var(--font-ui); font-size: 0.78rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--muted2); cursor: pointer; transition: all 0.2s;
+  }
+  .check-opt label::before {
+    content: ''; width: 14px; height: 14px; flex-shrink: 0;
+    border: 1px solid var(--muted); background: transparent; transition: all 0.2s;
+  }
+  .check-opt input:checked + label { border-color: var(--gold); background: rgba(201,168,76,0.07); color: var(--gold); }
+  .check-opt input:checked + label::before { background: var(--gold); border-color: var(--gold); }
+
+  /* COMPLIANCE BOX */
+  .compliance-box {
+    background: rgba(201,168,76,0.03);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 22px 20px;
+  }
+  .compliance-box .comp-title {
+    font-family: var(--font-ui); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .compliance-box p {
+    font-size: 0.88rem; color: rgba(240,237,230,0.72);
+    font-weight: 300; line-height: 1.65; margin-bottom: 16px;
+  }
+  .compliance-box p:last-of-type { margin-bottom: 0; }
+
+  /* ACKNOWLEDGE CHECKBOX */
+  .ack-wrap { margin-top: 18px; }
+  .ack-opt { position: relative; }
+  .ack-opt input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .ack-opt label {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border-dim);
+    background: var(--panel2);
+    font-size: 0.88rem; color: rgba(240,237,230,0.75);
+    cursor: pointer; transition: all 0.2s; line-height: 1.5;
+  }
+  .ack-opt label .box {
+    width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+    border: 1px solid var(--muted); background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .ack-opt label .box svg { display: none; width: 12px; height: 12px; }
+  .ack-opt input:checked + label { border-color: var(--gold); background: rgba(201,168,76,0.06); color: var(--white); }
+  .ack-opt input:checked + label .box { background: var(--gold); border-color: var(--gold); }
+  .ack-opt input:checked + label .box svg { display: block; }
+  .ack-opt.has-error label { border-color: var(--error); }
+
+  /* NOTE BOX */
+  .note-box {
+    background: rgba(201,168,76,0.04);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    padding: 16px 18px;
+    font-size: 0.9rem; color: rgba(240,237,230,0.75); font-weight: 300;
+  }
+  .note-box strong { color: var(--gold); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border-dim); margin: 26px 0; }
+
+  /* NAV */
+  .form-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 40px; gap: 16px;
+  }
+  .btn {
+    font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 15px 30px; cursor: pointer; border: 1px solid transparent;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.25s; text-decoration: none;
+  }
+  .btn-gold { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .btn-gold:hover { background: var(--gold-light); }
+  .btn-ghost { background: transparent; border-color: var(--border); color: var(--muted2); }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* CONFIRMATION */
+  .confirm-screen { display: none; text-align: center; padding: 60px 20px; animation: fadeUp 0.5s ease; }
+  .confirm-screen.active { display: block; }
+  .confirm-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: rgba(201,168,76,0.1); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+  }
+  .confirm-icon svg { width: 34px; height: 34px; }
+  .confirm-screen h2 {
+    font-family: var(--font-head); font-weight: 800; font-size: 2.4rem;
+    text-transform: uppercase; margin-bottom: 14px;
+  }
+  .confirm-screen p { color: var(--muted2); font-weight: 300; max-width: 460px; margin: 0 auto 32px; }
+  .confirm-details {
+    background: var(--panel); border: 1px solid var(--border-dim);
+    padding: 24px; max-width: 420px; margin: 0 auto 32px; text-align: left;
+  }
+  .confirm-details .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-dim); font-size: 0.9rem; gap: 12px; }
+  .confirm-details .row:last-child { border-bottom: none; }
+  .confirm-details .row .k { color: var(--muted2); font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+  .confirm-details .row .v { color: var(--white); font-weight: 500; text-align: right; }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border-dim);
+    padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 14px; background: var(--dark);
+  }
+  .footer-left { font-family: var(--font-ui); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .footer-right { display: flex; align-items: center; gap: 7px; font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); background: rgba(201,168,76,0.07); border: 1px solid var(--border); padding: 5px 12px; }
+  .footer-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+  .disclaimer { max-width: 680px; margin: 0 auto; padding: 0 32px 32px; font-size: 0.72rem; color: var(--muted); line-height: 1.6; position: relative; z-index: 1; }
+
+  @media (max-width: 640px) {
+    header { padding: 14px 18px; }
+    .form-hero { padding: 40px 18px 30px; }
+    .progress-wrap { padding: 22px 18px; }
+    .form-wrap { padding: 36px 18px 60px; }
+    .field-row { grid-template-columns: 1fr; }
+    .choice-grid, .choice-grid.three, .choice-grid.four { grid-template-columns: 1fr 1fr; }
+    .check-grid { grid-template-columns: 1fr; }
+    footer { padding: 22px 18px; }
+    .disclaimer { padding: 0 18px 28px; }
+    .p-step span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://gridsafe.tech/network" class="logo">
+    <svg viewBox="0 0 24 24" fill="none">
+      <polygon points="12,2 22,8 22,16 12,22 2,16 2,8" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+      <circle cx="12" cy="12" r="2" fill="#C9A84C"/>
+    </svg>
+    The Network <span class="sub">/ GridSafe</span>
+  </a>
+  <a href="https://gridsafe.tech/network" class="back-link">← Back</a>
+</header>
+
+<div class="form-hero">
+  <div class="form-eyebrow">Member Registration</div>
+  <h1>Join The<br>Network</h1>
+  <p>Register your buy box, set your state, and get access to off-market deal flow. Free to join. Takes 3 minutes.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-steps">
+      <div class="p-step active" id="ps1"><div class="dot">1</div><span>Who You Are</span></div>
+      <div class="p-connector"></div>
+      <div class="p-step" id="ps2"><div class="dot">2</div><span>Your Buy Box</span></div>
+      <div class="p-connector"></div>
+      <div class="p-step" id="ps3"><div class="dot">3</div><span>State & Compliance</span></div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressBar" style="width:33%"></div>
+    </div>
+  </div>
+</div>
+
+<div class="form-wrap">
+
+  <!-- STEP 1: Identity -->
+  <div class="step-panel active" id="step1">
+    <div class="step-title">Who You Are</div>
+    <div class="step-sub">Tell us about yourself and how you operate.</div>
+    <div class="field-group">
+
+      <div class="field-row">
+        <div class="field" id="f-fname">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="fname" placeholder="First" autocomplete="given-name"/>
+          <span class="err">Required.</span>
+        </div>
+        <div class="field" id="f-lname">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lname" placeholder="Last" autocomplete="family-name"/>
+          <span class="err">Required.</span>
+        </div>
+      </div>
+
+      <div class="field" id="f-phone">
+        <label>Phone Number <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="(555) 000-0000" autocomplete="tel" inputmode="tel"/>
+        <span class="err">Please enter a valid phone number.</span>
+      </div>
+
+      <div class="field" id="f-email">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="you@email.com" autocomplete="email"/>
+        <span class="err">Please enter a valid email address.</span>
+      </div>
+
+      <div class="field">
+        <label>Company / Business Name (if applicable)</label>
+        <input type="text" id="company" placeholder="Optional"/>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="field">
+        <label>I am a <span class="req">*</span></label>
+        <div class="choice-grid" id="f-role">
+          <div class="choice-opt"><input type="radio" name="role" id="r1" value="Wholesaler"/><label for="r1">Wholesaler</label></div>
+          <div class="choice-opt"><input type="radio" name="role" id="r2" value="Cash Buyer / Investor"/><label for="r2">Cash Buyer</label></div>
+          <div class="choice-opt"><input type="radio" name="role" id="r3" value="Licensed Agent"/><label for="r3">Licensed Agent</label></div>
+          <div class="choice-opt"><input type="radio" name="role" id="r4" value="Hybrid (Agent + Investor)"/><label for="r4">Agent + Investor</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Years of Experience</label>
+        <div class="choice-grid four">
+          <div class="choice-opt"><input type="radio" name="exp" id="e1" value="New (Under 1 yr)"/><label for="e1">New</label></div>
+          <div class="choice-opt"><input type="radio" name="exp" id="e2" value="1–3 Years"/><label for="e2">1–3 Yrs</label></div>
+          <div class="choice-opt"><input type="radio" name="exp" id="e3" value="3–7 Years"/><label for="e3">3–7 Yrs</label></div>
+          <div class="choice-opt"><input type="radio" name="exp" id="e4" value="7+ Years"/><label for="e4">7+ Yrs</label></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="form-nav">
+      <div></div>
+      <button class="btn btn-gold" onclick="goStep(2)">Next: Your Buy Box →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Buy Box -->
+  <div class="step-panel" id="step2">
+    <div class="step-title">Your Buy Box</div>
+    <div class="step-sub">Define exactly what deals you want. The more specific, the better the match.</div>
+    <div class="field-group">
+
+      <div class="field">
+        <label>Property Types You Buy <span class="req">*</span></label>
+        <div class="check-grid" id="f-proptypes">
+          <div class="check-opt"><input type="checkbox" name="proptypes" id="pct1" value="Single Family"/><label for="pct1">Single Family</label></div>
+          <div class="check-opt"><input type="checkbox" name="proptypes" id="pct2" value="Multi-Family"/><label for="pct2">Multi-Family</label></div>
+          <div class="check-opt"><input type="checkbox" name="proptypes" id="pct3" value="Condo / Townhouse"/><label for="pct3">Condo / Townhouse</label></div>
+          <div class="check-opt"><input type="checkbox" name="proptypes" id="pct4" value="Land / Lot"/><label for="pct4">Land / Lot</label></div>
+          <div class="check-opt"><input type="checkbox" name="proptypes" id="pct5" value="Commercial"/><label for="pct5">Commercial</label></div>
+          <div class="check-opt"><input type="checkbox" name="proptypes" id="pct6" value="Mixed Use"/><label for="pct6">Mixed Use</label></div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field" id="f-minprice">
+          <label>Min Purchase Price</label>
+          <input type="text" id="minprice" placeholder="$50,000" inputmode="numeric"/>
+        </div>
+        <div class="field" id="f-maxprice">
+          <label>Max Purchase Price <span class="req">*</span></label>
+          <input type="text" id="maxprice" placeholder="$500,000" inputmode="numeric"/>
+          <span class="err">Required.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Financing Method <span class="req">*</span></label>
+        <div class="choice-grid three" id="f-financing">
+          <div class="choice-opt"><input type="radio" name="financing" id="fin1" value="All Cash"/><label for="fin1">All Cash</label></div>
+          <div class="choice-opt"><input type="radio" name="financing" id="fin2" value="Hard Money"/><label for="fin2">Hard Money</label></div>
+          <div class="choice-opt"><input type="radio" name="financing" id="fin3" value="Conventional"/><label for="fin3">Conventional</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Deal Strategy</label>
+        <div class="check-grid">
+          <div class="check-opt"><input type="checkbox" name="strategy" id="str1" value="Fix & Flip"/><label for="str1">Fix & Flip</label></div>
+          <div class="check-opt"><input type="checkbox" name="strategy" id="str2" value="Buy & Hold / Rental"/><label for="str2">Buy & Hold</label></div>
+          <div class="check-opt"><input type="checkbox" name="strategy" id="str3" value="Wholesale / Assign"/><label for="str3">Wholesale / Assign</label></div>
+          <div class="check-opt"><input type="checkbox" name="strategy" id="str4" value="BRRRR"/><label for="str4">BRRRR</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Condition You'll Accept</label>
+        <div class="check-grid">
+          <div class="check-opt"><input type="checkbox" name="condpref" id="cp1" value="Move-In Ready"/><label for="cp1">Move-In Ready</label></div>
+          <div class="check-opt"><input type="checkbox" name="condpref" id="cp2" value="Minor Repairs"/><label for="cp2">Minor Repairs</label></div>
+          <div class="check-opt"><input type="checkbox" name="condpref" id="cp3" value="Major Repairs"/><label for="cp3">Major Repairs</label></div>
+          <div class="check-opt"><input type="checkbox" name="condpref" id="cp4" value="Full Rehab"/><label for="cp4">Full Rehab</label></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Additional Notes on Your Buy Box</label>
+        <textarea id="buyboxnotes" placeholder="Neighborhoods, deal criteria, anything specific to what you're looking for..."></textarea>
+      </div>
+
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+      <button class="btn btn-gold" onclick="goStep(3)">Next: State & Compliance →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: State + Compliance -->
+  <div class="step-panel" id="step3">
+    <div class="step-title">State & Compliance</div>
+    <div class="step-sub">Select the state you operate in and acknowledge your compliance obligations.</div>
+    <div class="field-group">
+
+      <div class="field" id="f-opstate">
+        <label>State You Operate In <span class="req">*</span></label>
+        <select id="opstate">
+          <option value="">Select Your State</option>
+          <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+        </select>
+        <span class="err">Please select your operating state.</span>
+      </div>
+
+      <hr class="divider"/>
+
+      <div class="compliance-box">
+        <div class="comp-title">⚠ State Compliance Acknowledgment</div>
+        <p>Real estate wholesaling, assignment of contracts, and brokerage activities are regulated differently in every state. Some states require a real estate license to wholesale, some restrict or prohibit the assignment of purchase contracts, and others have specific disclosure requirements.</p>
+        <p>By joining The Network, you acknowledge that <strong>you are solely responsible for understanding and complying with all real estate laws, licensing requirements, and regulations in the state you selected above</strong>. The Network by GridSafe Systems LLC does not provide legal advice and makes no representations regarding what is permissible in your state.</p>
+        <p>If you are unsure whether your activity requires a real estate license in your state, consult a licensed real estate attorney in that state before proceeding.</p>
+      </div>
+
+      <div class="ack-wrap">
+        <div class="ack-opt" id="f-ack1">
+          <input type="checkbox" id="ack1"/>
+          <label for="ack1">
+            <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1.5 6l3 3 6-6" stroke="#050608" stroke-width="2"/></svg></span>
+            I understand that I am solely responsible for complying with all real estate laws and licensing requirements in <strong id="ackStateName">my selected state</strong>. I acknowledge that The Network by GridSafe Systems LLC does not provide legal advice.
+          </label>
+        </div>
+      </div>
+
+      <div class="ack-wrap">
+        <div class="ack-opt" id="f-ack2">
+          <input type="checkbox" id="ack2"/>
+          <label for="ack2">
+            <span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M1.5 6l3 3 6-6" stroke="#050608" stroke-width="2"/></svg></span>
+            I agree that The Network may contact me with deal opportunities and platform updates. I have read the <a href="https://gridsafe.tech/privacy" style="color:var(--gold);">Privacy Policy</a>.
+          </label>
+        </div>
+      </div>
+
+    </div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+      <button class="btn btn-gold" onclick="submitForm()">Complete Registration →</button>
+    </div>
+  </div>
+
+  <!-- CONFIRMATION -->
+  <div class="confirm-screen" id="confirmScreen">
+    <div class="confirm-icon">
+      <svg viewBox="0 0 34 34" fill="none"><path d="M5 17l8 8L29 9" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round"/></svg>
+    </div>
+    <h2>You're In The Network</h2>
+    <p>Your registration has been received. We'll review your buy box and reach out within 24–48 hours with your first matched opportunities.</p>
+    <div class="confirm-details" id="confirmDetails"></div>
+    <a href="https://gridsafe.tech/network" class="btn btn-ghost">← Back to The Network</a>
+  </div>
+
+</div>
+
+<p class="disclaimer">
+  The Network by GridSafe Systems LLC is not a licensed real estate brokerage. Members are solely responsible for compliance with the real estate laws and licensing requirements of their operating state. Registration does not guarantee deal access or transaction outcomes. All deals facilitated through The Network are subject to independent review and the terms of any applicable purchase agreement.
+</p>
+
+<footer>
+  <div class="footer-left">© 2026 GridSafe Systems LLC · <a href="https://gridsafe.tech/privacy" style="color:var(--muted); text-decoration:none;">Privacy Policy</a></div>
+  <div class="footer-right"><span class="footer-dot"></span> Veteran-Owned & Operated</div>
+</footer>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 3;
+
+  function goStep(n) {
+    if (n > currentStep && !validateStep(currentStep)) return;
+    document.getElementById('step' + currentStep).classList.remove('active');
+    document.getElementById('ps' + currentStep).classList.remove('active');
+    document.getElementById('ps' + currentStep).classList.add('done');
+    currentStep = n;
+    document.getElementById('step' + currentStep).classList.add('active');
+    document.getElementById('ps' + currentStep).classList.remove('done');
+    document.getElementById('ps' + currentStep).classList.add('active');
+    document.getElementById('progressBar').style.width = (currentStep / totalSteps * 100) + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep(n) {
+    let valid = true;
+    if (n === 1) {
+      valid = requireField('fname', 'f-fname') && valid;
+      valid = requireField('lname', 'f-lname') && valid;
+      valid = requirePhone('phone', 'f-phone') && valid;
+      valid = requireEmail('email', 'f-email') && valid;
+      if (!document.querySelector('input[name="role"]:checked')) {
+        document.getElementById('f-role').style.outline = '1px solid var(--error)';
+        valid = false;
+      } else {
+        document.getElementById('f-role').style.outline = 'none';
+      }
+    }
+    if (n === 2) {
+      valid = requireField('maxprice', 'f-maxprice') && valid;
+      if (!document.querySelector('input[name="financing"]:checked')) {
+        document.getElementById('f-financing').style.outline = '1px solid var(--error)';
+        valid = false;
+      } else {
+        document.getElementById('f-financing').style.outline = 'none';
+      }
+    }
+    if (n === 3) {
+      valid = requireSelect('opstate', 'f-opstate') && valid;
+      if (!document.getElementById('ack1').checked) {
+        document.getElementById('f-ack1').classList.add('has-error');
+        valid = false;
+      } else { document.getElementById('f-ack1').classList.remove('has-error'); }
+      if (!document.getElementById('ack2').checked) {
+        document.getElementById('f-ack2').classList.add('has-error');
+        valid = false;
+      } else { document.getElementById('f-ack2').classList.remove('has-error'); }
+    }
+    return valid;
+  }
+
+  function requireField(id, wrapId) {
+    const el = document.getElementById(id);
+    const wrap = document.getElementById(wrapId);
+    if (!el.value.trim()) { wrap.classList.add('has-error'); return false; }
+    wrap.classList.remove('has-error'); return true;
+  }
+  function requireSelect(id, wrapId) {
+    const el = document.getElementById(id);
+    const wrap = document.getElementById(wrapId);
+    if (!el.value) { wrap.classList.add('has-error'); return false; }
+    wrap.classList.remove('has-error'); return true;
+  }
+  function requirePhone(id, wrapId) {
+    const el = document.getElementById(id);
+    const wrap = document.getElementById(wrapId);
+    if (el.value.replace(/\D/g,'').length < 10) { wrap.classList.add('has-error'); return false; }
+    wrap.classList.remove('has-error'); return true;
+  }
+  function requireEmail(id, wrapId) {
+    const el = document.getElementById(id);
+    const wrap = document.getElementById(wrapId);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)) { wrap.classList.add('has-error'); return false; }
+    wrap.classList.remove('has-error'); return true;
+  }
+  function getRadio(name) {
+    const sel = document.querySelector('input[name="' + name + '"]:checked');
+    return sel ? sel.value : '—';
+  }
+  function getChecked(name) {
+    const all = document.querySelectorAll('input[name="' + name + '"]:checked');
+    return all.length ? Array.from(all).map(x => x.value).join(', ') : '—';
+  }
+
+  // Update acknowledgment text when state is selected
+  document.getElementById('opstate').addEventListener('change', function() {
+    const label = document.getElementById('ackStateName');
+    if (this.value) label.textContent = this.value;
+    else label.textContent = 'my selected state';
+  });
+
+  function submitForm() {
+    if (!validateStep(3)) return;
+    document.getElementById('step3').classList.remove('active');
+    document.getElementById('confirmScreen').classList.add('active');
+    document.getElementById('progressBar').style.width = '100%';
+    const details = document.getElementById('confirmDetails');
+    details.innerHTML = `
+      <div class="row"><span class="k">Name</span><span class="v">${document.getElementById('fname').value} ${document.getElementById('lname').value}</span></div>
+      <div class="row"><span class="k">Role</span><span class="v">${getRadio('role')}</span></div>
+      <div class="row"><span class="k">Operating State</span><span class="v">${document.getElementById('opstate').value}</span></div>
+      <div class="row"><span class="k">Max Purchase</span><span class="v">${document.getElementById('maxprice').value}</span></div>
+      <div class="row"><span class="k">Financing</span><span class="v">${getRadio('financing')}</span></div>
+      <div class="row"><span class="k">Strategy</span><span class="v">${getChecked('strategy')}</span></div>
+    `;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Phone auto-format
+  document.getElementById('phone').addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').substring(0,10);
+    if (v.length >= 6) v = '(' + v.substring(0,3) + ') ' + v.substring(3,6) + '-' + v.substring(6);
+    else if (v.length >= 3) v = '(' + v.substring(0,3) + ') ' + v.substring(3);
+    this.value = v;
+  });
+</script>
+</body>
+</html>

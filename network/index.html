@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Network — by GridSafe Systems</title>
+<meta name="description" content="The Network by GridSafe Systems — a veteran-led real estate group connecting homeowners with serious cash buyers nationwide. Sell as-is, on your timeline, no fees."/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dim: #7A6030;
+    --black: #050608;
+    --dark: #0A0B0D;
+    --panel: #0F1115;
+    --panel2: #141720;
+    --border: rgba(201,168,76,0.2);
+    --border-dim: rgba(201,168,76,0.08);
+    --white: #F0EDE6;
+    --muted: #6A6D75;
+    --muted2: #8A8D95;
+    --font-head: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-ui: 'Rajdhani', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.022) 1px, transparent 1px);
+    background-size: 52px 52px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    padding: 18px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-dim);
+    background: rgba(5,6,8,0.88);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 11px;
+    font-family: var(--font-ui);
+    font-size: 1.02rem; font-weight: 700;
+    letter-spacing: 0.12em; color: var(--gold);
+    text-decoration: none; text-transform: uppercase;
+  }
+  .logo svg { width: 28px; height: 28px; }
+  .logo .sub { color: var(--muted2); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.18em; }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-links a {
+    font-family: var(--font-ui); font-size: 0.75rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted2); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    font-family: var(--font-ui); font-size: 0.72rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold) !important;
+    border: 1px solid var(--border); padding: 8px 18px;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black) !important; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative; z-index: 1;
+    padding: 90px 48px 80px;
+    border-bottom: 1px solid var(--border-dim);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.06) 0%, transparent 70%);
+    overflow: hidden;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-ui); font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 22px; display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before { content:''; width: 30px; height: 1px; background: var(--gold); }
+  .hero h1 {
+    font-family: var(--font-head); font-weight: 800;
+    font-size: clamp(2.8rem, 7vw, 5.4rem);
+    line-height: 0.95; letter-spacing: 0.01em;
+    text-transform: uppercase; max-width: 900px;
+  }
+  .hero h1 .em { color: var(--gold); }
+  .hero-lead {
+    margin-top: 26px; max-width: 560px;
+    font-size: 1.12rem; color: rgba(240,237,230,0.72);
+    font-weight: 300; line-height: 1.6;
+  }
+  .hero-cta-row { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 16px; }
+  .btn {
+    font-family: var(--font-ui); font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 32px; text-decoration: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all 0.25s; border: 1px solid transparent;
+  }
+  .btn-gold { background: var(--gold); color: var(--black); }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost { border-color: var(--border); color: var(--gold); background: transparent; }
+  .btn-ghost:hover { border-color: var(--gold); background: rgba(201,168,76,0.06); transform: translateY(-2px); }
+  .btn .arr { transition: transform 0.25s; }
+  .btn:hover .arr { transform: translateX(4px); }
+
+  .hero-trust {
+    margin-top: 54px; display: flex; flex-wrap: wrap; gap: 32px;
+    padding-top: 30px; border-top: 1px solid var(--border-dim);
+  }
+  .trust-item { display: flex; flex-direction: column; gap: 4px; }
+  .trust-num {
+    font-family: var(--font-head); font-weight: 700; font-size: 1.9rem;
+    color: var(--gold); line-height: 1;
+  }
+  .trust-label {
+    font-family: var(--font-ui); font-size: 0.66rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted2);
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section.block { position: relative; z-index: 1; padding: 80px 48px; max-width: 1180px; margin: 0 auto; }
+  .sec-eyebrow {
+    font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .sec-eyebrow::before { content:''; width: 22px; height: 1px; background: var(--gold); }
+  .sec-title {
+    font-family: var(--font-head); font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem); text-transform: uppercase;
+    letter-spacing: 0.02em; line-height: 1.04; margin-bottom: 18px;
+  }
+  .sec-intro { max-width: 620px; color: rgba(240,237,230,0.7); font-weight: 300; font-size: 1.05rem; }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps { margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-dim); border: 1px solid var(--border-dim); }
+  .step { background: var(--dark); padding: 36px 30px; position: relative; transition: background 0.3s; }
+  .step:hover { background: var(--panel); }
+  .step-num {
+    font-family: var(--font-head); font-weight: 800; font-size: 2.6rem;
+    color: var(--gold-dim); line-height: 1; margin-bottom: 18px;
+  }
+  .step h3 {
+    font-family: var(--font-head); font-weight: 700; font-size: 1.3rem;
+    text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 12px; color: var(--white);
+  }
+  .step p { color: rgba(240,237,230,0.65); font-size: 0.95rem; font-weight: 300; }
+
+  /* ---------- WHO WE SERVE / SELLERS ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .serve-list { list-style: none; margin-top: 26px; display: flex; flex-direction: column; gap: 16px; }
+  .serve-list li { display: flex; align-items: flex-start; gap: 14px; color: rgba(240,237,230,0.78); font-size: 1.02rem; }
+  .serve-list li::before {
+    content:''; flex-shrink: 0; margin-top: 8px; width: 8px; height: 8px;
+    background: var(--gold); clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+  }
+  .serve-card {
+    background: linear-gradient(160deg, var(--panel2), var(--dark));
+    border: 1px solid var(--border); padding: 38px;
+    position: relative; overflow: hidden;
+  }
+  .serve-card::before {
+    content:''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .serve-card h3 {
+    font-family: var(--font-head); font-weight: 700; font-size: 1.6rem;
+    text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 16px;
+  }
+  .serve-card p { color: rgba(240,237,230,0.72); font-weight: 300; margin-bottom: 20px; }
+  .serve-card .promise { display: flex; flex-direction: column; gap: 12px; margin-bottom: 26px; }
+  .serve-card .promise div { display: flex; align-items: center; gap: 12px; font-family: var(--font-ui); font-size: 0.85rem; letter-spacing: 0.04em; color: var(--white); }
+  .serve-card .promise svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  /* ---------- MARKETS ---------- */
+  .markets { margin-top: 46px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .market {
+    background: var(--dark); border: 1px solid var(--border-dim);
+    padding: 34px 30px; transition: all 0.3s; position: relative;
+  }
+  .market:hover { border-color: var(--border); transform: translateY(-3px); }
+  .market-tag {
+    font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); padding: 4px 10px;
+    border: 1px solid var(--border); display: inline-block; margin-bottom: 18px;
+  }
+  .market h3 {
+    font-family: var(--font-head); font-weight: 700; font-size: 1.7rem;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .market .county { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted2); text-transform: uppercase; margin-bottom: 16px; }
+  .market p { color: rgba(240,237,230,0.65); font-size: 0.95rem; font-weight: 300; }
+  .market .towns { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .market .towns span {
+    font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.08em;
+    color: var(--muted2); padding: 3px 9px; background: rgba(201,168,76,0.04);
+    border: 1px solid var(--border-dim); text-transform: uppercase;
+  }
+
+  /* ---------- DUAL CTA ---------- */
+  .dual-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 10px; }
+  .cta-card {
+    padding: 46px 40px; border: 1px solid var(--border-dim);
+    position: relative; overflow: hidden; transition: all 0.35s;
+    background: var(--dark); text-decoration: none; display: block; color: var(--white);
+  }
+  .cta-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .cta-card::after {
+    content:''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at bottom right, rgba(201,168,76,0.08), transparent 60%);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  .cta-card:hover::after { opacity: 1; }
+  .cta-card .label {
+    font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+  }
+  .cta-card h3 {
+    font-family: var(--font-head); font-weight: 800; font-size: 2.1rem;
+    text-transform: uppercase; line-height: 1; margin-bottom: 14px;
+  }
+  .cta-card p { color: rgba(240,237,230,0.68); font-weight: 300; margin-bottom: 26px; font-size: 0.98rem; }
+  .cta-card .go {
+    font-family: var(--font-ui); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .cta-card .go .arr { transition: transform 0.3s; }
+  .cta-card:hover .go .arr { transform: translateX(6px); }
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust-strip {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border-dim); border-bottom: 1px solid var(--border-dim);
+    background: var(--dark); padding: 44px 48px;
+  }
+  .trust-strip-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+  .ts-item { display: flex; flex-direction: column; gap: 8px; }
+  .ts-item .ic { color: var(--gold); }
+  .ts-item .ic svg { width: 26px; height: 26px; }
+  .ts-item h4 { font-family: var(--font-head); font-weight: 700; font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .ts-item p { color: var(--muted2); font-size: 0.85rem; font-weight: 300; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    position: relative; z-index: 1;
+    padding: 56px 48px 36px; background: var(--black);
+    border-top: 1px solid var(--border-dim);
+  }
+  .footer-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; padding-bottom: 40px; }
+  .footer-brand .logo { margin-bottom: 16px; }
+  .footer-brand p { color: var(--muted2); font-size: 0.92rem; font-weight: 300; max-width: 320px; }
+  .footer-col h5 {
+    font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+  }
+  .footer-col a {
+    display: block; color: var(--muted2); text-decoration: none;
+    font-size: 0.9rem; margin-bottom: 10px; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    max-width: 1180px; margin: 0 auto; padding-top: 28px;
+    border-top: 1px solid var(--border-dim);
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .footer-bottom .copy { font-family: var(--font-ui); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .footer-vet {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-ui); font-size: 0.64rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold);
+    background: rgba(201,168,76,0.08); border: 1px solid var(--border); padding: 6px 14px;
+  }
+  .footer-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
+  .disclaimer {
+    max-width: 1180px; margin: 24px auto 0;
+    font-size: 0.72rem; color: var(--muted); line-height: 1.6; font-weight: 300;
+  }
+
+  /* ---------- REVEAL ---------- */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px) {
+    header { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 60px 20px 56px; }
+    section.block { padding: 56px 20px; }
+    .steps { grid-template-columns: 1fr; }
+    .split { grid-template-columns: 1fr; gap: 36px; }
+    .markets { grid-template-columns: 1fr; }
+    .dual-cta { grid-template-columns: 1fr; }
+    .trust-strip { padding: 36px 20px; }
+    .trust-strip-inner { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    footer { padding: 44px 20px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="https://gridsafe.tech" class="logo">
+    <svg viewBox="0 0 28 28" fill="none">
+      <polygon points="14,2 26,9 26,19 14,26 2,19 2,9" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+      <polygon points="14,7 20,11 20,17 14,21 8,17 8,11" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1"/>
+      <circle cx="14" cy="14" r="2.2" fill="#C9A84C"/>
+    </svg>
+    The Network<span class="sub">/ by GridSafe</span>
+  </a>
+  <nav class="nav-links">
+    <a href="#how">How It Works</a>
+    <a href="#serve">Who We Help</a>
+    <a href="#markets">Markets</a>
+    <a href="/sell" class="nav-cta">Get Started</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">The Network · by GridSafe Systems</div>
+  <h1>Built for <span class="em">Sellers</span> Who Need Out.<br>And <span class="em">Professionals</span> Who Get Deals Done.</h1>
+  <p class="hero-lead">The Network is two things: a straight path for homeowners who need to sell fast, and a deal-sourcing platform for wholesalers and agents who want to move product. One ecosystem. Both sides win.</p>
+  <div class="hero-cta-row">
+    <a href="/sell" class="btn btn-gold">I Need to Sell <span class="arr">→</span></a>
+    <a href="/buyers" class="btn btn-ghost">I'm a Wholesaler / Agent <span class="arr">→</span></a>
+  </div>
+  <div class="hero-trust">
+    <div class="trust-item">
+      <span class="trust-num">$0</span>
+      <span class="trust-label">Fees for Sellers</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-num">AS-IS</span>
+      <span class="trust-label">No Repairs Needed</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-num">Off-Market</span>
+      <span class="trust-label">Deals for Members</span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-num">100%</span>
+      <span class="trust-label">Veteran Owned</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="block reveal" id="how">
+  <div class="sec-eyebrow">The Process</div>
+  <h2 class="sec-title">Three Steps. No Surprises.</h2>
+  <p class="sec-intro">We built The Network to remove the friction, the open houses, and the months of waiting. Here's exactly how it works.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Tell Us About It</h3>
+      <p>Share your property and your situation through a short, private form. No pressure, no obligation. We review every submission personally.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Get a Real Number</h3>
+      <p>We assess your property and present a straightforward cash offer based on real market data — not a lowball, and never a moving target.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Close On Your Terms</h3>
+      <p>If it works for you, we close through a licensed real estate attorney and title company. You pick the date. You walk away clean.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SERVE -->
+<section class="block reveal" id="serve">
+  <div class="split">
+    <div>
+      <div class="sec-eyebrow">Who We Help</div>
+      <h2 class="sec-title">Two Paths.<br>One Network.</h2>
+      <p class="sec-intro">The Network serves homeowners who need a clean exit, and real estate professionals who need a steady deal flow. Both sides of the table, under one roof.</p>
+      <ul class="serve-list">
+        <li>Homeowners facing foreclosure or behind on payments</li>
+        <li>Families managing inherited or estate properties</li>
+        <li>Surviving spouses navigating a difficult transition</li>
+        <li>Wholesalers who need a reliable off-market pipeline</li>
+        <li>Agents looking to expand into distressed and off-market</li>
+        <li>Cash buyers who want deals matched to their buy box</li>
+      </ul>
+    </div>
+    <div class="serve-card">
+      <h3>Our Promise to Sellers</h3>
+      <p>When you reach out to The Network, you're dealing with people who served their communities in uniform and now serve them in business. Here's what that means for you:</p>
+      <div class="promise">
+        <div>
+          <svg viewBox="0 0 18 18" fill="none"><path d="M2 9l4 4 10-10" stroke="#C9A84C" stroke-width="2"/></svg>
+          No fees, no commissions, ever
+        </div>
+        <div>
+          <svg viewBox="0 0 18 18" fill="none"><path d="M2 9l4 4 10-10" stroke="#C9A84C" stroke-width="2"/></svg>
+          You never pay for a single repair
+        </div>
+        <div>
+          <svg viewBox="0 0 18 18" fill="none"><path d="M2 9l4 4 10-10" stroke="#C9A84C" stroke-width="2"/></svg>
+          Closing handled by a real attorney or title co.
+        </div>
+        <div>
+          <svg viewBox="0 0 18 18" fill="none"><path d="M2 9l4 4 10-10" stroke="#C9A84C" stroke-width="2"/></svg>
+          Your information stays private
+        </div>
+      </div>
+      <a href="/sell" class="btn btn-gold" style="width:100%; justify-content:center;">Start Your Private Inquiry <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW MEMBERSHIP WORKS -->
+<section class="block reveal" id="markets">
+  <div class="sec-eyebrow">Operate In Your State</div>
+  <h2 class="sec-title">Your Market. Your Rules.</h2>
+  <p class="sec-intro">The Network is a platform for real estate professionals — wholesalers and agents — to source deals and connect with buyers. Every member sets the state they operate in at sign-up, because real estate and wholesaling laws are set state by state, and you operate under yours.</p>
+  <div class="markets">
+    <div class="market">
+      <span class="market-tag">Step One</span>
+      <h3>Select Your State</h3>
+      <div class="county">Required at Registration</div>
+      <p>When you join, you choose the state you do business in. The platform is built around that choice — your deals, your buyers, and your tools are framed for the market you actually work.</p>
+      <div class="towns">
+        <span>Wholesaler</span><span>Agent</span><span>Investor</span>
+      </div>
+    </div>
+    <div class="market">
+      <span class="market-tag">Your Responsibility</span>
+      <h3>Know Your Laws</h3>
+      <div class="county">Compliance Is On You</div>
+      <p>Wholesaling and licensing rules vary widely from state to state. As a member, you are solely responsible for operating in full compliance with the laws of the state you selected. The Network is the tool — the conduct is yours.</p>
+      <div class="towns">
+        <span>Licensing</span><span>Disclosure</span><span>Assignment</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-strip-inner">
+    <div class="ts-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" stroke="#C9A84C" stroke-width="1.5"/></svg></div>
+      <h4>Veteran Owned</h4>
+      <p>Built on a foundation of service and integrity.</p>
+    </div>
+    <div class="ts-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C9A84C" stroke-width="1.5"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18" stroke="#C9A84C" stroke-width="1.5"/></svg></div>
+      <h4>Nationwide</h4>
+      <p>Buyers and reach in every market.</p>
+    </div>
+    <div class="ts-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 17.5 7.1 21l.9-5.5-4-3.9 5.5-.8L12 3z" stroke="#C9A84C" stroke-width="1.5"/></svg></div>
+      <h4>Proper Closings</h4>
+      <p>Closed legally per each state's rules.</p>
+    </div>
+    <div class="ts-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="1" stroke="#C9A84C" stroke-width="1.5"/><path d="M8 10V7a4 4 0 018 0v3" stroke="#C9A84C" stroke-width="1.5"/></svg></div>
+      <h4>Privacy First</h4>
+      <p>Your situation stays between us.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DUAL CTA -->
+<section class="block reveal">
+  <div class="sec-eyebrow">Get Started</div>
+  <h2 class="sec-title">Pick Your Path.</h2>
+  <p class="sec-intro" style="margin-bottom:42px;">Two doors into The Network. One for homeowners who need out. One for professionals who move deals.</p>
+  <div class="dual-cta">
+    <a href="/sell" class="cta-card">
+      <div class="label">For Homeowners</div>
+      <h3>I Need to<br>Sell My Home</h3>
+      <p>Get a fair, no-obligation cash offer. As-is. No fees. No repairs. On your timeline — handled with full discretion.</p>
+      <div class="go">Submit Your Property <span class="arr">→</span></div>
+    </a>
+    <a href="/buyers" class="cta-card">
+      <div class="label">For Wholesalers & Agents</div>
+      <h3>Join the<br>Network</h3>
+      <p>Register as a member, set your state, and get access to off-market deal flow matched to your buy box. You operate under your state's laws — we provide the pipeline.</p>
+      <div class="go">Create Your Member Profile <span class="arr">→</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="https://gridsafe.tech" class="logo">
+        <svg viewBox="0 0 28 28" fill="none">
+          <polygon points="14,2 26,9 26,19 14,26 2,19 2,9" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+          <polygon points="14,7 20,11 20,17 14,21 8,17 8,11" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="1"/>
+          <circle cx="14" cy="14" r="2.2" fill="#C9A84C"/>
+        </svg>
+        The Network<span class="sub">/ by GridSafe</span>
+      </a>
+      <p>A veteran-led real estate platform connecting homeowners who need to sell with wholesalers and agents who get deals done. Built on trust and execution.</p>
+    </div>
+    <div class="footer-col">
+      <h5>The Network</h5>
+      <a href="#how">How It Works</a>
+      <a href="#serve">Who We Help</a>
+      <a href="#markets">Markets</a>
+      <a href="/sell">Sell Your Home</a>
+      <a href="/buyers">Buyer Network</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="https://gridsafe.tech">GridSafe Systems</a>
+      <a href="https://gridsafe.tech/privacy">Privacy Policy</a>
+      <a href="mailto:contact@gridsafe.tech">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="copy">© 2026 GridSafe Systems LLC · All Rights Reserved</div>
+    <div class="footer-vet"><span class="footer-dot"></span> Veteran-Owned &amp; Operated</div>
+  </div>
+  <p class="disclaimer">
+    The Network by GridSafe Systems LLC is a real estate deal-sourcing platform and is not a licensed real estate brokerage. We do not provide legal, tax, or financial advice. Members who use The Network as a wholesaler or real estate agent are solely responsible for compliance with all applicable laws, licensing requirements, and disclosure obligations in the state in which they operate. All seller transactions are closed through a licensed real estate attorney and/or title company in accordance with the laws of the state where the property is located. Property offers are non-binding until a written agreement is executed by all parties.
+  </p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Smooth anchor scroll for in-page links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
